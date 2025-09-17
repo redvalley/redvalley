@@ -1,5 +1,4 @@
-﻿#if !PRO_VERSION
-using Plugin.AdMob;
+﻿using Plugin.AdMob;
 using Plugin.AdMob.Services;
 
 namespace RedValley.Mobile.Services;
@@ -55,4 +54,3 @@ public class RedValleyInterstitualAdService : RedValleyAdService<IInterstitialAd
             appOpenAd.OnAdDismissed += (sender, error) => { OnAdDismissed(onAdShownAction); };
     }
 }
-#endif

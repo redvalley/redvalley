@@ -9,7 +9,7 @@
         /// Determines whether a string is null or empty.
         /// </summary>
         /// <param name="s">The string that should be checked.</param>
-        public static bool IsEmpty(this string s)
+        public static bool IsEmpty(this string? s)
         {
             return string.IsNullOrEmpty(s);
         }
@@ -18,9 +18,29 @@
         /// Determines whether a string is not null or empty.
         /// </summary>
         /// <param name="s">The string that should be checked.</param>
-        public static bool IsNotEmpty(this string s)
+        public static bool IsNotEmpty(this string? s)
         {
             return !string.IsNullOrEmpty(s);
+        }
+
+        /// <summary>
+        /// Determines whether all strings are contained within the current string.
+        /// </summary>
+        /// <param name="s">The string that should be checked.</param>
+        /// <param name="stringsToMatch">The string that should be contained within the current string</param>
+        public static bool ContainsAll(this string? s,params IEnumerable<string> stringsToMatch)
+        {
+            return !s.IsEmpty() && stringsToMatch.All(stringToMatch => s.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        /// <summary>
+        /// Determines whether any string is contained within the current string.
+        /// </summary>
+        /// <param name="s">The string that should be checked.</param>
+        /// <param name="stringsToMatch">The string that should be contained within the current string</param>
+        public static bool ContainsAny(this string? s, params IEnumerable<string> stringsToMatch)
+        {
+            return !s.IsEmpty() && stringsToMatch.Any(stringToMatch => s.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
