@@ -42,6 +42,16 @@
         {
             return !s.IsEmpty() && stringsToMatch.Any(stringToMatch => s.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase));
         }
+        
+        /// <summary>
+        /// Determines whether any string is contained within the current string.
+        /// </summary>
+        /// <param name="s">The string that should be checked.</param>
+        /// <param name="stringListToMatch">The string list that should be and combined and its entries contained within the current string</param>
+        public static bool ContainsAnyAndCombined(this string? s, IEnumerable<IEnumerable<string>> stringListToMatch)
+        {
+            return !s.IsEmpty() && stringListToMatch.All(stringsToMatch => stringsToMatch.Any((stringToMatch) =>  s!.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase)));
+        }
 
         /// <summary>
         /// Converts the value of objects to strings based on the formats specified and inserts them into another string. 
