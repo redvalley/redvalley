@@ -30,6 +30,11 @@
         /// <param name="stringsToMatch">The string that should be contained within the current string</param>
         public static bool ContainsAll(this string? s,params IEnumerable<string> stringsToMatch)
         {
+            if (s == null)
+            {
+                return false;
+            }
+            
             return !s.IsEmpty() && stringsToMatch.All(stringToMatch => s.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase));
         }
 
@@ -40,6 +45,11 @@
         /// <param name="stringsToMatch">The string that should be contained within the current string</param>
         public static bool ContainsAny(this string? s, params IEnumerable<string> stringsToMatch)
         {
+            if (s == null)
+            {
+                return false;
+            }
+            
             return !s.IsEmpty() && stringsToMatch.Any(stringToMatch => s.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase));
         }
         
@@ -50,12 +60,17 @@
         /// <param name="stringListToMatch">The string list that should be and combined and its entries contained within the current string</param>
         public static bool ContainsAnyAndCombined(this string? s, IEnumerable<IEnumerable<string>> stringListToMatch)
         {
-            List<string> alReadyMatchedToSkip = new List<string>();
+            if (s == null)
+            {
+                return false;
+            }
 
             if (s.IsEmpty())
             {
                 return false;
             }
+            
+            List<string> alReadyMatchedToSkip = new List<string>();
             
             foreach (IEnumerable<string> stringsToMatch in stringListToMatch)
             {
@@ -64,7 +79,11 @@
                 if (s.ContainsAny(currentStringsToMatch))
                 {
                     var matchedString = stringsToMatch.FirstOrDefault(stringToCheck => s.Contains(stringToCheck, StringComparison.InvariantCultureIgnoreCase));
-                    alReadyMatchedToSkip.Add(matchedString);
+                    if (matchedString != null)
+                    {
+                        alReadyMatchedToSkip.Add(matchedString);    
+                    }
+                    
                 }
                 else
                 {
