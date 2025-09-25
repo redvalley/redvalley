@@ -50,7 +50,29 @@
         /// <param name="stringListToMatch">The string list that should be and combined and its entries contained within the current string</param>
         public static bool ContainsAnyAndCombined(this string? s, IEnumerable<IEnumerable<string>> stringListToMatch)
         {
-            return !s.IsEmpty() && stringListToMatch.All(stringsToMatch => stringsToMatch.Any((stringToMatch) =>  s!.Contains(stringToMatch, StringComparison.InvariantCultureIgnoreCase)));
+            List<string> alReadyMatchedToSkip = new List<string>();
+
+            if (s.IsEmpty())
+            {
+                return false;
+            }
+            
+            foreach (IEnumerable<string> stringsToMatch in stringListToMatch)
+            {
+                var currentStringsToMatch = stringsToMatch.Except(alReadyMatchedToSkip);
+                
+                if (s.ContainsAny(currentStringsToMatch))
+                {
+                    var matchedString = stringsToMatch.FirstOrDefault(stringToCheck => s.Contains(stringToCheck, StringComparison.InvariantCultureIgnoreCase));
+                    alReadyMatchedToSkip.Add(matchedString);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
